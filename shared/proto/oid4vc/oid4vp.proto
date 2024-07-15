@@ -1,0 +1,19 @@
+syntax = "proto3";
+package oid4vc;
+
+import "google/protobuf/struct.proto";
+
+service OID4VP {
+  rpc CreateRequest (OID4VPRequestConfig) returns (OID4VPRequest) {}
+}
+
+message OID4VPRequestConfig {
+  google.protobuf.Struct presentationDefinition = 1;
+  optional string nonce = 2;
+  optional string state = 3;
+}
+
+message OID4VPRequest {
+  string uri = 1;
+  string request = 2;
+}

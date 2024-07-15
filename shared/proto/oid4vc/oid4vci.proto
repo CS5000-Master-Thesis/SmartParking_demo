@@ -1,0 +1,19 @@
+syntax = "proto3";
+package oid4vc;
+
+// import "google/protobuf/any.proto";
+
+service OID4VCI {
+  rpc CreateOffer (OfferConfig) returns (Offer) {}
+}
+
+message OfferConfig {
+  repeated string credentials = 1;
+  optional string nonce = 2;
+  optional string state = 3;
+}
+
+message Offer {
+  string uri = 1;
+  string offer = 2;
+}

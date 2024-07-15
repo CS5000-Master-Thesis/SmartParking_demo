@@ -1,0 +1,16 @@
+syntax = "proto3";
+package oid4vc;
+
+service SIOPV2 {
+  rpc CreateRequest (SIOPV2RequestConfig) returns (SIOPV2Request) {}
+}
+
+message SIOPV2RequestConfig {
+  optional string nonce = 1;
+  optional string state = 2;
+}
+
+message SIOPV2Request {
+  string uri = 1;
+  string request = 2;
+}

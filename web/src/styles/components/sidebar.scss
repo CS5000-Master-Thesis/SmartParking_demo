@@ -1,0 +1,95 @@
+.sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 320px;
+    padding: 60px 25px 40px 50px;
+    height: 100vh;
+    background-color: #FFFFFF;
+    position: relative;
+    box-shadow: -8px 0px 10px rgba(132, 147, 173, 0.1);
+    border-bottom: 8px solid #4140DF;
+    z-index: 2;
+
+    @include breakPoint(medium) {
+        display: none;
+    }
+
+    &__header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 35px;
+    }
+
+    .frame {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        z-index: 0;
+    }
+
+    .sidebar-logo {
+        width: 84px;
+    }
+
+    .sidebar-drop-selector {
+        position: relative;
+        margin-top: -4px;
+    }
+
+    .todo-list {
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 24px;
+        color: #142037;
+        margin-bottom: 40px;
+
+        img {
+            height: 18px;
+        }
+    }
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    // min-height: 110px;
+    width: 156px;
+    z-index: 2;
+
+    .sidebar-links {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #EEF2FA;
+
+        a {
+            color: #C3D0E4;
+            font-weight: 500;
+            font-size: 11px;
+            line-height: 13px;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+
+            &:hover {
+                @include themify($themes) {
+                    color: themed('primaryFontColor');  
+                }
+            }
+        }
+    }
+}
+  
+.steps-wrapper {
+    text-align: left;
+    width: 250px;
+    display: inline-table;
+    vertical-align: top;
+  }
+  

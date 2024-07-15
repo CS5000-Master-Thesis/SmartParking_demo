@@ -1,0 +1,32 @@
+
+// user/user.proto
+syntax = "proto3";
+
+package user;
+
+import "google/protobuf/struct.proto";
+
+service UsersService {
+  rpc ConnectUser (User) returns (User) {}
+  rpc PresentCredential (CredentialPresentation) returns (CredentialPresentation) {}
+  rpc RequestCredential (CredentialRequest) returns (CredentialResponse) {}
+}
+
+message User {
+  string did = 1;
+  string code = 2;
+}
+
+message CredentialPresentation {
+  User user = 1;
+  string vp = 2;
+}
+
+message CredentialRequest {
+  User user = 1;
+  google.protobuf.Struct credentialDefinition = 2;
+}
+
+message CredentialResponse {
+  repeated string signedCredentials = 1;
+}
