@@ -4,14 +4,14 @@ import { Button, Modal } from 'antd';
 import { Layout, RandomGraphicElement } from '../components';
 import { QRCode } from 'antd';
 import useStep from '../utils/useStep';
-import appStore from '../assets/appStore.svg';
-import googlePlay from '../assets/googlePlay.svg';
+// import appStore from '../assets/appStore.svg';
+// import googlePlay from '../assets/googlePlay.svg';
 import avatar1 from '../assets/avatar1.png';
 import avatar2 from '../assets/avatar2.png';
 import dots from '../assets/backgrounds/dots.png';
 import circle from '../assets/backgrounds/circleFrame6.svg';
-import config from '../config.json';
-import { useTranslation, Trans } from 'react-i18next';
+// import config from '../config.json';
+import { useTranslation } from 'react-i18next';
 import Impierce from '../components/powerdBy/Impierce';
 import UniMe from '../components/apps/UniMe';
 import UniMeImage from '../assets/apps/unime-image.png';
@@ -95,7 +95,7 @@ const AppPicker: React.FC = () => {
                                                         </Button>
                                                     </div>
                                                 </div>
-                                                <img className="app__image" src={wallet.image}></img>
+                                                <img className="app__image" alt='' src={wallet.image}></img>
                                             </section>
                                             <Modal
                                                 open={open === wallet.name}

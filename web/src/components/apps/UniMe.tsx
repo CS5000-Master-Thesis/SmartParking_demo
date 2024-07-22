@@ -1,7 +1,7 @@
 import React from 'react';
 import unime from '../../assets/apps/unime.png';
 
-export default () => (
+const UniMe = () => (
     <a
         href='https://impierce.com/'
         target='_blank'
@@ -10,3 +10,5 @@ export default () => (
         <img src={unime} width={200} alt='powered by Impierce' />
     </a>
 );
+
+export default UniMe;

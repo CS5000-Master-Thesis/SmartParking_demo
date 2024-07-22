@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../assets/landing/logoFooter.svg';
 import { Translation } from 'react-i18next';
 
-export default () => (
+const Footer = () => (
     <Translation>
         {
             (t) =>
@@ -34,3 +34,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default Footer;

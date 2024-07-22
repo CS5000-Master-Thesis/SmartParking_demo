@@ -1,8 +1,10 @@
 import React from 'react';
 import { Spin } from 'antd';
 
-export default () => (
+const Loading = () => (
     <div className='spinner'>
         <Spin size='large' />
     </div>
-);
+); 
+
+export default Loading;

@@ -37,7 +37,7 @@
     "build": "npm run copy_wasm && craco build",
     "test": "npm run copy_wasm && craco test",
     "eject": "craco eject",
-    "copy_wasm": ""
+    "copy_wasm": "copyfiles ./node_modules/@iota/identity-wasm/web/identity_wasm_bg.wasm ./public"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -73,6 +73,7 @@
     "@types/react-router-dom": "^5.3.3",
     "@types/uuid": "^9.0.8",
     "@types/webfontloader": "^1.6.32",
+    "copyfiles": "^2.4.1",
     "craco-alias": "^3.0.1",
     "node-sass": "^9.0.0",
     "typescript": "^4.9.5"

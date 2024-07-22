@@ -8,8 +8,7 @@ import appMobile from '../../assets/landing/app-mobile.png';
 import circle from '../../assets/backgrounds/circleFrame2.svg';
 import { Translation } from 'react-i18next';
 
-
-export default () => (
+const App = () => (
     <Translation>
         {
             (t) =>
@@ -58,3 +57,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default App;

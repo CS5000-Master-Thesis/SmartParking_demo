@@ -1,7 +1,7 @@
 import React from 'react';
 import poweredByIota from '../../assets/poweredBy/Tangle_Labs_Horizontal_Logo_Black_Text_Coloured_Icon_with_Black_Background.svg';
 
-export default () => (
+const TangleLabs = () => (
     <a
         href='https://www.tanglelabs.io/'
         target='_blank'
@@ -10,3 +10,5 @@ export default () => (
         <img src={poweredByIota} width={125} alt='powered by TangleLabs' />
     </a>
 );
+
+export default TangleLabs;

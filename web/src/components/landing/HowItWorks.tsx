@@ -8,7 +8,7 @@ import howItWorks2Mobile from '../../assets/landing/howItWorks2-mobile.png';
 import circle from '../../assets/backgrounds/circleFrame1.svg';
 import { Translation } from 'react-i18next';
 
-export default () => (
+const HowItWorks = () => (
     <Translation>
         {
             (t) =>
@@ -105,3 +105,5 @@ const Accept = () => (
         }
     </Translation>
 );
+
+export default HowItWorks;

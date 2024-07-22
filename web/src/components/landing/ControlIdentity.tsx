@@ -3,7 +3,7 @@ import { RandomGraphicElement } from '..';
 import connected from '../../assets/landing/connected.svg';
 import { Translation } from 'react-i18next';
 
-export default () => (
+const ControlIdentity = () => (
     <Translation>
         {
             (t) =>
@@ -25,3 +25,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default ControlIdentity;

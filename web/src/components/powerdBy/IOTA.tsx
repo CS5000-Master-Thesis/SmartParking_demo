@@ -1,7 +1,7 @@
 import React from 'react';
 import poweredByIota from '../../assets/poweredBy/poweredByIota.svg';
 
-export default () => (
+const IOTA = () => (
     <a
         href='https://iota.org'
         target='_blank'
@@ -10,3 +10,5 @@ export default () => (
         <img src={poweredByIota} alt='powered by Iota' />
     </a>
 );
+
+export default IOTA;

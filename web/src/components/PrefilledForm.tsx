@@ -26,7 +26,7 @@ const PrefilledForm = ({ dataFields }: {
                 {
                     Object.keys(dataFields).map((field: string, index) => (
                         <Form.Item
-                            label={t("components.prefilledForm." + field)}
+                            label={field}
                             key={field}
                             name={field}
                             className={shortFields.includes(field) ? 'short-field' : ''}

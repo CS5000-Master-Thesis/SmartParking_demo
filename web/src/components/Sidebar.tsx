@@ -1,16 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import logo from '../assets/landing/logoHeader.svg';
+// import { Link } from 'react-router-dom';
+// import logo from '../assets/landing/logoHeader.svg';
 import frame from '../assets/backgrounds/circleFrame5.svg';
-import DropSelector from './DropSelector';
+// import DropSelector from './DropSelector';
 import { useTranslation } from 'react-i18next';
 import IOTA from './powerdBy/IOTA';
 
-const externalPages = [
-    { url: '/', title: 'Home' },
-    { url: '/#faq', title: 'FAQ' },
-    { url: 'https://iota.org', title: 'IOTA.org' }
-];
+// const externalPages = [
+//     { url: '/', title: 'Home' },
+//     { url: '/#faq', title: 'FAQ' },
+//     { url: 'https://iota.org', title: 'IOTA.org' }
+// ];
 
 const SidebarInstance = ({ children, poweredBy }: {
     children?: JSX.Element | null | undefined;
@@ -23,11 +23,11 @@ const SidebarInstance = ({ children, poweredBy }: {
             <div>
                 <div className='sidebar-wrapper__header'>
 
-                    <Link to='/demo/todos'>
+                    {/* <Link to='/demo/todos'>
                         <img src={logo} alt='Selv logo' className='sidebar-logo' />
-                    </Link>
+                    </Link> */}
                     <div className="sidebar-drop-selector">
-                        <DropSelector />
+                        {/* <DropSelector /> */}
                     </div>
                 </div>
                 <div>
@@ -39,7 +39,7 @@ const SidebarInstance = ({ children, poweredBy }: {
 
             </div>
             <div className='sidebar-footer'>
-                <div className='sidebar-links'>
+                {/* <div className='sidebar-links'>
                     {externalPages.map(page => (
                         <a
                             href={page.url}
@@ -51,7 +51,7 @@ const SidebarInstance = ({ children, poweredBy }: {
                             {page.title}
                         </a>
                     ))}
-                </div>
+                </div> */}
                <IOTA/>
                 {poweredBy && (
                     <>

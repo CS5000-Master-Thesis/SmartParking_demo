@@ -1,13 +1,13 @@
 import React from 'react';
 import { RandomGraphicElement } from '..';
 import main from '../../assets/landing/main.png';
-import appStore from '../../assets/appStore.svg';
-import googlePlay from '../../assets/googlePlay.svg';
+// import appStore from '../../assets/appStore.svg';
+// import googlePlay from '../../assets/googlePlay.svg';
 import dots from '../../assets/backgrounds/dots.png';
 import ellipse from '../../assets/backgrounds/ellipse1.svg';
 import { Translation } from 'react-i18next';
 
-export default () => {
+const Main = () => {
     return (
         <Translation>
             { //need translation tag so that suspense-promise-resolve reaches this component 
@@ -50,3 +50,5 @@ const Content = () => (
         }
     </Translation>
 );
+
+export default Main;

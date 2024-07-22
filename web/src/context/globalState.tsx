@@ -1,9 +1,9 @@
-import React, { Dispatch, Provider, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { createContext, useContext, useReducer } from 'react';
 import { routes, mainSteps } from '../steps';
-import SocketIOClient, { Socket } from 'socket.io-client';
+import SocketIOClient from 'socket.io-client';
 
-import config from '../config.json';
+// import config from '../config.json';
 import { Issuers } from '@shared/types/Issuers';
 import { Scopes } from '@shared/types/Scopes';
 import { Providers } from '@shared/types/Providers';
@@ -222,7 +222,7 @@ export function GlobalStateProvider({ children }: any) {
         })
 
         // OIDC4VP
-        socket.on('issuanceOffer', (data, cb) => {
+        socket.on('issuanceOffer', (data, cb) => {            
             dispatch({
                 type: Actions.SET_QR_CONTENT,
                 scope: data.scope,

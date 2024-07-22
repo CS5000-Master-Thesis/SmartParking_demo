@@ -1,43 +1,57 @@
-# Selv - Digital Identity Demonstrator
+# SmartParking Demo
 
-## Profile
-- DID IOTA
-- DID Key / DID JWK
-- [Self-Issued OpenID Provider v2 - draft 13](https://openid.net/specs/openid-connect-self-issued-v2-1_0.html)
-    - Non-Pre-Registered Relying Party/Decentralized Identifiers
-- [OpenID for Verifiable Presentations - draft 20](https://openid.net/specs/openid-4-verifiable-presentations-1_0.html)
-- [OpenID for Verifiable Credential Issuance - draft 13](https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html)
-    - Pre-Authorized Code Flow
+## Initial Setup for running the example
 
-## Architecture
+### 1. Build IOTA Identity GRPC image
 
-## Development
+```shell
+# Init submodule
+git submodule update --init
 
-### Requirements 
-- docker
-- IOTA Sandbox
+# Enter directory
+cd identity.rs
 
-### Setup
-Add following domains to your host files:
-- `selv.local`
-- `bank.selv.local`
-- `government.selv.local`
-- `insurance.selv.local`
+# Update to commit
+git checkout 6f874df
 
-Copy .env.template to .env
+# Build image
+docker build -f bindings/grpc/Dockerfile -t iotaleger/identity-grpc .
+```
 
-### Tooling
-1. create stronghold
-1. copy to data
-1. copy stronghold pw, keyIds and fragments in docker-compose
+### 2. Create identities + env file
 
-### API
-Find an API description in `tooling/API`, use [httpyac](
-https://httpyac.github.io/guide/installation_vscode.html) to explore.
+```shell
+# Enter directory
+cd tooling
 
-### Run
-`docker-compose -f docker-compose.yml -f docker-compose.dev.yml up --build`
+# Run program
+cargo run --release -- smartparking.org oem ta psp plo
+```
+
+### 3. Start container
+
+```shell
+# Build images and start container (only need to have the --build the first time)
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+
+# Start container
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+
+# Stop container
+docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+```
+
+### 4. Open demo site
+
+- http://localhost:3000/
 
 
+#### Update hosts file 
 
-https://stackoverflow.com/a/73376302
+Add these to hosts file 'C:\Windows\System32\drivers\etc\hosts'
+```shell
+127.0.0.1   selv.local
+# 127.0.0.1   bank.selv.local
+# 127.0.0.1   government.selv.local
+# 127.0.0.1   insurance.selv.local
+```

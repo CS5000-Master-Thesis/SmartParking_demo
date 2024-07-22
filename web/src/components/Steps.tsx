@@ -3,7 +3,7 @@ import { Steps } from 'antd';
 import i18n from 'i18next';
 
 const styles = {
-    width: '200px',
+    width: '280px',
     display: 'inline-table',
     verticalAlign: 'top'
 };

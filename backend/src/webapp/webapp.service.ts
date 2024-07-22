@@ -17,6 +17,10 @@ import { User } from 'src/user/user';
 
 import * as CitizenCredentialConfig from '../../../shared/credentials/CitizenCredential.json';
 import * as CompanyCredentialConfig from '../../../shared/credentials/CompanyCredential.json';
+import * as VehicleInformationCredentialConfig from '../../../shared/credentials/1_VehicleInformationCredential.json';
+import * as VehicleRegistrationCredentialConfig from '../../../shared/credentials/2_VehicleRegistrationCredential.json';
+import * as VehicleOwnershipCredentialConfig from '../../../shared/credentials/3_VehicleOwnershipCredential.json';
+import * as CollaborationCredentialConfig from '../../../shared/credentials/4_CollaborationPLOandPSPCredential.json';
 import { Providers } from '../../../shared/types/Providers';
 import { ValidateDidResponse } from 'src/identity/domain_linkage';
 import { JwtCreationResponse } from 'src/identity/credentials';
@@ -216,6 +220,18 @@ export class WebAppService {
             case 'CompanyCredential':
               credential_template = CompanyCredentialConfig.template;
               break;
+            case 'VehicleIdentificationCredential':
+              credential_template = VehicleInformationCredentialConfig.template;
+              break;
+            case 'VehicleRegistrationCredential':
+              credential_template = VehicleRegistrationCredentialConfig.template;
+              break;
+            case 'VehicleOwnershipCredential':
+              credential_template = VehicleOwnershipCredentialConfig.template;
+              break;
+            case 'CollaborationCredential':
+              credential_template = CollaborationCredentialConfig.template;
+              break;
 
             default:
               throw new Error(
@@ -231,6 +247,33 @@ export class WebAppService {
               ...credential.data,
             },
           };
+
+          const walkObj = (obj) => {
+            if (!obj) return;
+            for (const [key, val] of Object.entries(obj)) {
+              if (typeof val === 'object') {
+                walkObj(val); // recursively call the function
+              }
+              if (typeof val === 'string' && val.startsWith('**TEMPLATE')) {
+                // TODO: extract template function
+                switch (val) {
+                  case '**TEMPLATE_DATENOW':
+                    obj[key] = new Date().toISOString();
+                    break;
+
+                  case '**TEMPLATE_RANDOM_DATE':
+                    const start = new Date();
+                    obj[key] = new Date( start.getDate() + Math.random() * 100 ).toISOString(); 
+                    break;
+
+                  default:
+                    break;
+                }
+              }
+            }
+          };
+
+          walkObj(credential_template);
 
           this.logger.debug('requesting', credential_template);
           return this.identityService.create(

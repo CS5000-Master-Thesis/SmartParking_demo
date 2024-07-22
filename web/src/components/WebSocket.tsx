@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
+// import axios from 'axios';
 import SocketIOClient, { Socket } from 'socket.io-client';
-import { notification } from 'antd';
-import useStep from '../utils/useStep';
-import useInterval from '../utils/useInterval';
-import evaluateCredential from '../utils/did';
-import { getCompanyId, encrypt, decrypt } from '../utils/helper';
+// import { notification } from 'antd';
+// import useStep from '../utils/useStep';
+// import useInterval from '../utils/useInterval';
+// import evaluateCredential from '../utils/did';
+// import { getCompanyId, encrypt, decrypt } from '../utils/helper';
 import config from '../config.json';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 
 // const messages = {
 //     waiting: 'Waiting for Selv app...',
@@ -15,23 +15,23 @@ import { useTranslation } from 'react-i18next';
 //     missing: 'Credentials missing or not trusted'
 // };
 
-const notify = (type: string, message: string, description: string) => {
-    switch (type) {
-    case 'success':
-        notification.success({ message, description });
-        break;
-    case 'warning':
-        notification.warning({ message, description });
-        break;
-    case 'info':
-        notification.info({ message, description });
-        break;
-    case 'error':
-    default:
-        notification.error({ message, description });
-        break;
-    }
-};
+// const notify = (type: string, message: string, description: string) => {
+//     switch (type) {
+//     case 'success':
+//         notification.success({ message, description });
+//         break;
+//     case 'warning':
+//         notification.warning({ message, description });
+//         break;
+//     case 'info':
+//         notification.info({ message, description });
+//         break;
+//     case 'error':
+//     default:
+//         notification.error({ message, description });
+//         break;
+//     }
+// };
 
 const WebSocket = ({ history, schemaName, setStatus, setLoading, fields, messages, generatedChannelId }: {
     history: any;
@@ -42,12 +42,12 @@ const WebSocket = ({ history, schemaName, setStatus, setLoading, fields, message
     fields: any;
     generatedChannelId?: string;
 }) => {
-    const { nextStep } = useStep();
-    const [password, setPassword] = useState('');
-    const [isRunning, setIsRunning] = useState(false);
-    const [counter, setCounter] = useState(0);
+    // const { nextStep } = useStep();
+    // const [password, setPassword] = useState('');
+    // const [isRunning, setIsRunning] = useState(false);
+    // const [counter, setCounter] = useState(0);
 
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     let ioClient: Socket;
 
@@ -59,7 +59,7 @@ const WebSocket = ({ history, schemaName, setStatus, setLoading, fields, message
 
         // Removing the listener before unmounting the component in order to avoid addition of multiple listener
         return () => {
-            setIsRunning(false);
+            // setIsRunning(false);
             ioClient && console.log('WebSocket disconnected');
             ioClient?.off('error');
             ioClient?.disconnect();

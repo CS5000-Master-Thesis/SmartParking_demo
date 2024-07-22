@@ -105,6 +105,8 @@ export class AppController {
           'company',
         );
 
+        this.logger.debug('555 Creential', credential);
+
         this.impierceService.submitSignedCredential(offer_id, credential[0]);
 
         break;

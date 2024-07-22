@@ -1,4 +1,5 @@
 use anyhow::Context as _;
+use anyhow::Ok;
 use identity_eddsa_verifier::EdDSAJwsVerifier;
 use identity_iota::core::Duration;
 use identity_iota::core::Object;
@@ -40,6 +41,7 @@ use iota_sdk::client::Password;
 use iota_sdk::types::block::address::Address;
 use iota_sdk::types::block::output::AliasOutput;
 
+use local_ip_address::local_ip;
 use std::io::Write;
 
 // The API endpoint of an IOTA node, e.g. Hornet.
@@ -91,8 +93,13 @@ async fn main() -> anyhow::Result<()> {
     let mut stronghold_pwd_file = std::fs::File::create("stronghold_secret.txt")?;
     write!(stronghold_pwd_file, "{pw_string}")?;
 
+    let my_local_ip = local_ip().unwrap();
+
+    println!("This is my local IP address: {:?}", my_local_ip);
+
     let mut env_file = std::fs::File::create(".env")?;
-    writeln!(env_file, "HTTP_PORT=81\nGRPC_PORT=5001")?;
+    writeln!(env_file, "HTTP_PORT=80\nGRPC_PORT=5001")?;
+    writeln!(env_file, "LOCAL_IP_ADDRESS={my_local_ip}")?;
     for name in issuers {
         let domain =
             format!("https://{}.{public_url_domain}", name.to_lowercase()).parse::<Url>()?;
@@ -167,12 +174,14 @@ async fn create_issuer(
     let domain_linkage_credential = add_domain_linkage(&mut document, domain_to_link)?;
     let alias_output = {
         let rent_structure = client.get_rent_structure().await?;
-        let updated_alias = client
-            .update_did_output(document)
-            .await?;
-        AliasOutputBuilder::from(&updated_alias).with_minimum_storage_deposit(rent_structure).finish()?
+        let updated_alias = client.update_did_output(document).await?;
+        AliasOutputBuilder::from(&updated_alias)
+            .with_minimum_storage_deposit(rent_structure)
+            .finish()?
     };
-    let document = client.publish_did_output(stronghold_storage.as_secret_manager(), alias_output).await?;
+    let document = client
+        .publish_did_output(stronghold_storage.as_secret_manager(), alias_output)
+        .await?;
 
     // Create a domain linkage configuration
     let domain_linkage_config = document

@@ -27,6 +27,7 @@ export class OID4VCImpierceService {
         )
         .pipe(
           catchError((error: AxiosError) => {
+            this.logger.error("111 /v0/authorization_requests");
             this.logger.error(error);
             throw error.message;
           }),
@@ -51,6 +52,7 @@ export class OID4VCImpierceService {
         )
         .pipe(
           catchError((error: AxiosError) => {
+            this.logger.error("222 /v0/authorization_requests");
             this.logger.error(error);
             throw error.message;
           }),
@@ -73,6 +75,7 @@ export class OID4VCImpierceService {
         )
         .pipe(
           catchError((error: AxiosError) => {
+            this.logger.error("3333 /v0/offers");
             this.logger.error(error);
             throw error.message;
           }),
@@ -85,21 +88,32 @@ export class OID4VCImpierceService {
     offer_id: string,
     credential: string,
   ): Promise<string> {
-    const response = await firstValueFrom(
-      this.httpService
-        .post<string>('http://oid4vc-impierce:3033/v0/credentials', {
-          offerId: offer_id,
-          credential: credential,
-          credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
-          isSigned: true,
-        })
-        .pipe(
-          catchError((error: AxiosError) => {
-            this.logger.error(error);
-            throw error.message;
-          }),
-        ),
-    );
-    return response.data;
+
+    const dsa = {
+      offerId: offer_id,
+      credential: credential,
+      credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
+      isSigned: true,
+    }
+
+    this.logger.debug('666 Creential', dsa);
+
+    try {
+      const response = await firstValueFrom(
+        this.httpService
+          .post<string>('http://oid4vc-impierce:3033/v0/credentials', dsa)
+          .pipe(
+            catchError((error: AxiosError) => {
+              this.logger.error("444 /v0/credentials");
+              this.logger.error(error);
+              throw error.message; 
+            }),
+          ),
+      );
+      return response.data;
+    } catch(err) {
+      this.logger.error('ssi-agent has a bug when sending a signed credential', err);
+      return '';
+    }
   }
 }

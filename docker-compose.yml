@@ -1,6 +1,7 @@
 services:
   valkey:
     image: valkey/valkey:7.2.5
+    restart: unless-stopped
     labels:
       traefik.enable: false
 
@@ -16,17 +17,21 @@ services:
     # depends_on:
     #   - valkey
     #   - identity
+    restart: unless-stopped
     environment:
-      ISSUERS_BANK_DID: ${ISSUERS_BANK_DID}
-      ISSUERS_BANK_FRAGMENT: ${ISSUERS_BANK_FRAGMENT}
-      ISSUERS_GOVERNMENT_DID: ${ISSUERS_GOVERNMENT_DID}
-      ISSUERS_GOVERNMENT_FRAGMENT: ${ISSUERS_GOVERNMENT_FRAGMENT}
-      ISSUERS_INSURANCE_DID: ${ISSUERS_INSURANCE_DID}
-      ISSUERS_INSURANCE_FRAGMENT: ${ISSUERS_INSURANCE_FRAGMENT}
+      ISSUERS_OEM_DID: ${ISSUERS_OEM_DID}
+      ISSUERS_OEM_FRAGMENT: ${ISSUERS_OEM_FRAGMENT}
+      ISSUERS_TA_DID: ${ISSUERS_TA_DID}
+      ISSUERS_TA_FRAGMENT: ${ISSUERS_TA_FRAGMENT}
+      ISSUERS_PSP_DID: ${ISSUERS_PSP_DID}
+      ISSUERS_PSP_FRAGMENT: ${ISSUERS_PSP_FRAGMENT}
+      ISSUERS_PLO_DID: ${ISSUERS_PLO_DID}
+      ISSUERS_PLO_FRAGMENT: ${ISSUERS_PLO_FRAGMENT}
 
   identity:
-    image: iotaleger/identity-grpckobey
+    image: iotaleger/identity-grpc
     # image: iotaledger/identity-grpc:alpha
+    restart: unless-stopped
     environment:
       - API_ENDPOINT=https://api.testnet.shimmer.network
       - SNAPSHOT_PATH=/stronghold.hodl
@@ -44,16 +49,17 @@ services:
     build:
       context: ./
       dockerfile: ./oid4vc/TangleLabs/Dockerfile
+    restart: unless-stopped
     environment:
-      RP_DID: ${ISSUERS_BANK_DID}
-      SIGNER_KEYID: ${ISSUERS_BANK_KEYID}
-      KEY_FRAGMENT: ${ISSUERS_BANK_FRAGMENT}
-      PUBLIC_URL: ${BANK_PUBLIC_URL}
+      RP_DID: ${ISSUERS_TA_DID}
+      SIGNER_KEYID: ${ISSUERS_TA_KEYID}
+      KEY_FRAGMENT: ${ISSUERS_TA_FRAGMENT}
+      PUBLIC_URL: ${TA_PUBLIC_URL}
     expose:
       - "3333"
       - "50051"
     ports:
-      - "172.29.75.9:3333:3333/tcp"
+      - "${LOCAL_IP_ADDRESS}:3333:3333/tcp"
     volumes:
       - ./shared:/usr/shared
 
@@ -61,6 +67,7 @@ services:
   #   build:
   #     context: ./
   #     dockerfile: ./oid4vc/walt.id/Dockerfile
+  #   restart: unless-stopped
   #   expose:
   #     - '3000'
   #     - '50051'
@@ -73,10 +80,11 @@ services:
     image: impiercetechnologies/ssi-agent:c25f9da
     depends_on:
       - cqrs-postgres-db
+    restart: unless-stopped
     expose:
       - "3033"
     ports:
-      - "172.29.75.9:3033:3033/tcp"
+      - "${LOCAL_IP_ADDRESS}:3033:3033/tcp"
     volumes:
       - ./shared:/usr/shared
       - ./data/stronghold.hodl:/stronghold.hodl:ro
@@ -91,11 +99,11 @@ services:
         "export AGENT_CONFIG_STRONGHOLD_PASSWORD=$$(cat /run/secrets/stronghold_pwd) ; /usr/local/bin/agent_application",
       ]
     environment:
-      AGENT_CONFIG_URL: ${INSURANCE_PUBLIC_URL}
+      AGENT_CONFIG_URL: ${OEM_PUBLIC_URL}
       AGENT_SECRET_MANAGER_STRONGHOLD_PATH: /stronghold.hodl
-      AGENT_CONFIG_ISSUER_KEY_ID: ${ISSUERS_INSURANCE_KEYID}
-      AGENT_CONFIG_ISSUER_DID: ${ISSUERS_INSURANCE_DID}
-      AGENT_CONFIG_ISSUER_FRAGMENT: ${ISSUERS_INSURANCE_FRAGMENT}
+      AGENT_CONFIG_ISSUER_KEY_ID: ${ISSUERS_OEM_KEYID}
+      AGENT_CONFIG_ISSUER_DID: ${ISSUERS_OEM_DID}
+      AGENT_CONFIG_ISSUER_FRAGMENT: ${ISSUERS_OEM_FRAGMENT}
       AGENT_CONFIG_DEFAULT_DID_METHOD: "did:iota:rms"
       AGENT_APPLICATION_ENABLE_CORS: true
       #AGENT_CONFIG_LOG_FORMAT: json

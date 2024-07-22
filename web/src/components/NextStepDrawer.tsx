@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import { useTranslation } from 'react-i18next';
 
-export default ({ link }: { link: string }) => {
+const NextStepDrawer = ({ link }: { link: string }) => {
     const [nextStep, setNextStep] = useState('');
 
     const { t } = useTranslation();
@@ -75,3 +75,5 @@ export default ({ link }: { link: string }) => {
             return <React.Fragment />;
     }
 };
+
+export default NextStepDrawer;

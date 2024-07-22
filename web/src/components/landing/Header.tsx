@@ -24,7 +24,8 @@ const links = [
         title: 'FAQs'
     },
 ]
-export default () => {
+
+const Header = () => {
     const { t } = useTranslation();
     const [menuOpenState, setMenuState] = useState(false);
 
@@ -110,3 +111,5 @@ const MobileMenu = ({ onAnchorClick, menuOpenState }: { onAnchorClick: (anchor: 
         </div>
     )
 }
+
+export default Header;

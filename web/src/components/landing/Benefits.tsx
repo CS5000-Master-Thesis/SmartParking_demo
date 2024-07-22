@@ -8,7 +8,7 @@ import responsibility from '../../assets/landing/benefits/responsibility.svg';
 import user from '../../assets/landing/benefits/user.svg';
 import { Translation } from 'react-i18next';
 
-export default () => (
+const Benefits = () => (
     <Translation>
         {
             (t) =>
@@ -58,3 +58,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default Benefits;

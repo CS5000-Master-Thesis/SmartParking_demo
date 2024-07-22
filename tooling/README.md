@@ -1,1 +1,1 @@
-cargo run --release -- selv.iota.org bank government insurance
+cargo run --release -- smartparking.org oem ta psp plo

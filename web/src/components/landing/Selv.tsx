@@ -4,7 +4,8 @@ import { Translation, Trans } from 'react-i18next';
 
 
 //TODO: https://react.i18next.com/latest/trans-component ->Alternative usage (v11.6.0)
-export default () => (
+
+const Selv = () => (
     <Translation>
         {
             (t) =>
@@ -19,3 +20,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default Selv;

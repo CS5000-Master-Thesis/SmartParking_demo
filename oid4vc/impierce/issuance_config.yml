@@ -7,7 +7,7 @@ server_config:
           - VerifiableCredential
           # - OpenBadgeCredential <-- uncomment this to specify that the to be issued Credentials are OpenBadgev3 Credentials
       display:
-        - name: Verifiable Credential
+        - name: SmartParking VC1
           locale: en
           logo:
             uri: https://impierce.com/images/logo-blue.png

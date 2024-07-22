@@ -20,7 +20,7 @@ const ManualForm = ({ dataFields, onSubmit, submitLabel }: {
     // Watch all values
     const values = Form.useWatch([], form);
   
-    React.useEffect(() => {
+    useEffect(() => {
       form
         .validateFields({ validateOnly: true })
         .then(() => setSubmittable(true))

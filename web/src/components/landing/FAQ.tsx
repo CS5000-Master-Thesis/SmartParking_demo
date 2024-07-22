@@ -18,8 +18,7 @@ const Icon = ({ params }: any) => {
     )
 }
 
-
-export default () => (
+const FAQ = () => (
     <Translation>
         {
             (t) =>
@@ -141,3 +140,5 @@ export default () => (
         }
     </Translation>
 );
+
+export default FAQ;
