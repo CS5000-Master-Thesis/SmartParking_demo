@@ -1,6 +1,7 @@
 export enum Scopes {
   OEM = "OEM",
-  TA = "TA",
+  TA_ev_reg = "TA_ev_reg",
+  TA_ev_owner = "TA_ev_owner",
   PSP = "PSP",
   PLO = "PLO",
 }

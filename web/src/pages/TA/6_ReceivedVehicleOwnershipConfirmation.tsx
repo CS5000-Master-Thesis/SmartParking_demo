@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 /**
  * Component which will display a Confirmation.
  */
-const Confirmation: React.FC = () => {
+const ReceivedVehicleInformationConfirmation: React.FC = () => {
     const { nextStep, theme } = useStep();
     const [companyId, setCompanyId] = useState('');
     const [title, setTitle] = useState('');
@@ -64,4 +64,4 @@ const Confirmation: React.FC = () => {
     );
 };
 
-export default Confirmation;
+export default ReceivedVehicleInformationConfirmation;

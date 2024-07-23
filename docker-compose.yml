@@ -17,7 +17,7 @@ services:
     # depends_on:
     #   - valkey
     #   - identity
-    restart: unless-stopped
+    # restart: unless-stopped
     environment:
       ISSUERS_OEM_DID: ${ISSUERS_OEM_DID}
       ISSUERS_OEM_FRAGMENT: ${ISSUERS_OEM_FRAGMENT}
@@ -90,7 +90,7 @@ services:
       - ./data/stronghold.hodl:/stronghold.hodl:ro
       - ./oid4vc/impierce/event_publisher_config.yml:/app/agent_event_publisher_http/config.yml:ro
       - ./oid4vc/impierce/config.yml:/app/agent_application/config.yml:ro
-      - ./oid4vc/impierce/issuance_config.yml:/app/agent_issuance/issuance_config.yml:ro
+      - ./oid4vc/impierce/issuance_config.yml:/app/agent_issuance/issuance-config.yml:ro
       - ./data/tmp:/app/agent_api_rest
     entrypoint:
       [

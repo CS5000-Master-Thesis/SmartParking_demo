@@ -18,7 +18,7 @@ import { Providers } from "@shared/types/Providers";
 import { Scopes } from "@shared/types/Scopes";
 import VehicleInformationCredentialConfig from "@shared/credentials/1_VehicleInformationCredential.json";
 
-const ReceiveCredentials: React.FC = () => {
+const ReceiveVehicleInformationCredentials: React.FC = () => {
   const { t } = useTranslation();
 
   const { nextStep } = useStep();
@@ -83,4 +83,4 @@ const ReceiveCredentials: React.FC = () => {
   );
 };
 
-export default ReceiveCredentials;
+export default ReceiveVehicleInformationCredentials;

@@ -1,11 +1,7 @@
-import ProveIdentity from './ProveIdentity';
-import SingInConfirmation from './SingInConfirmation';
-import Confirmation from './Confirmation';
-import ReceiveCredentials from './ReceiveCredentials';
+import ReceiveVehicleInformationCredentials from './1_ReceiveVehicleInformationCredentials';
+import VehicleInformationConfirmation from './2_VehicleInformationConfirmation';
 
 export {
-    ProveIdentity,
-    SingInConfirmation,
-    Confirmation,
-    ReceiveCredentials
+    ReceiveVehicleInformationCredentials,
+    VehicleInformationConfirmation,
 };

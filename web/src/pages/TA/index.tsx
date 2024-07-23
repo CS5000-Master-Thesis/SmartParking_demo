@@ -1,17 +1,15 @@
-import ProveIdentity from './ProveIdentity';
-import SingInConfirmation from './SingInConfirmation';
-import CompanyData from './CompanyData';
-import CompanyDetails from './CompanyDetails';
-import Confirmation from './Confirmation';
-import ProvideData from './ProvideData';
-import ReceiveCredentials from './ReceiveCredentials';
+import ProvideVehicleInformationData from './1_ProvideVehicleInformationData';
+import DisplayVehicleInformationData from './2_DisplayVehicleInformationData';
+import ReceiveVehicleRegistrationCredentials from './3_ReceiveVehicleRegistrationCredentials';
+import ReceivedVehicleRegistrationConfirmation from './4_ReceivedVehicleRegistrationConfirmation';
+import ReceiveVehicleOwnershipCredentials from './5_ReceiveVehicleOwnershipCredentials';
+import ReceivedVehicleOwnershipConfirmation from './6_ReceivedVehicleOwnershipConfirmation';
 
 export {
-    ProveIdentity,
-    SingInConfirmation,
-    CompanyData,
-    CompanyDetails,
-    Confirmation,
-    ProvideData,
-    ReceiveCredentials
+    ProvideVehicleInformationData,
+    DisplayVehicleInformationData,
+    ReceiveVehicleRegistrationCredentials,
+    ReceivedVehicleRegistrationConfirmation,
+    ReceiveVehicleOwnershipCredentials,
+    ReceivedVehicleOwnershipConfirmation,
 };

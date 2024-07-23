@@ -1,21 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import randomstring from 'randomstring';
 import { Layout, Loading, QRCode, RandomGraphicElement } from '../../components';
 import useStep from '../../utils/useStep';
-// import config from '../../config.json';
 import { useTranslation, Trans } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Actions, useCredentialsDispatch, useGlobalState } from '../../context/globalState';
+import { Issuers } from '@shared/types/Issuers';
 import { Providers } from '@shared/types/Providers';
-// import { Issuers } from '@shared/types/Issuers';
 import { Scopes } from '@shared/types/Scopes';
-
-import { v4 as uuidv4 } from 'uuid';
-import VehicleInformationCredentialConfig from "@shared/credentials/1_VehicleInformationCredential.json";
+import VehicleOwnershipCredentialConfig from "@shared/credentials/3_VehicleOwnershipCredential.json";
 
 
-
-const ProvideData: React.FC = () => {
+const ReceiveVehicleInformationCredentials: React.FC = () => {
     const { t } = useTranslation();
 
     const { nextStep } = useStep();
@@ -30,22 +25,17 @@ const ProvideData: React.FC = () => {
     }, [nextStep, navigate]);
 
     useEffect(() => {
-
         dispatch?.({
-            type: Actions.REQUEST_PRESENTATION,
+            type: Actions.REQUEST_ISSUANCE,
             provider: Providers.Impierce,
-            presentationDefinition: {
-                id: uuidv4(),
-                input_descriptors: VehicleInformationCredentialConfig.input_descriptors
-            },
-            scope: Scopes.TA,
-
+            scope: Scopes.TA_ev_owner,
+            credentials: [{type: VehicleOwnershipCredentialConfig.template.type.at(-1) as string}],
+            issuer: Issuers.TA 
         })
-
     }, [dispatch]);
 
     useEffect(() => {
-        if (state[Scopes.TA]?.credentials?.length) {
+        if(state[Scopes.TA_ev_owner]?.issuanceComplete) {
             goToNextStep();
         }
     }, [state, goToNextStep])
@@ -61,8 +51,7 @@ const ProvideData: React.FC = () => {
                         </Trans>
                     </p>
                     <div className='qr-wrapper'>
-                        {/* TODO: Handle loading state */}
-                        <QRCode text={state[Scopes.TA]?.QRcontent ?? ""} />
+                        <QRCode text={state[Scopes.TA_ev_owner]?.QRcontent ?? ""} />
                     </div>
                     <p className='bold'>{t(status)}</p>
                     {loading && <Loading />}
@@ -72,4 +61,4 @@ const ProvideData: React.FC = () => {
     );
 };
 
-export default ProvideData;
+export default ReceiveVehicleInformationCredentials;

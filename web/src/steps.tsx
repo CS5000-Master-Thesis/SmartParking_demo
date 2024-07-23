@@ -2,39 +2,30 @@ import * as React from "react";
 
 import * as TA from "./pages/TA";
 import * as OEM from "./pages/OEM";
-// import * as Insurance from "./pages/Insurance";
 
 import {
   Landing,
   IntroShowTodos,
-  IntroShowMobile,
-//   AppDownloadQR,
-//   BankData,
-//   InsuranceData,
   GreatSuccess,
   ThankYou,
-  AppPicker,
 } from "./pages";
 
-import TangleLabs from "./components/powerdBy/TangleLabs";
 import Impierce from "./components/powerdBy/Impierce";
-// import Waltid from "./components/powerdBy/Waltid";
 
 export const routes = [
   { path: "/:lng?", element: <Landing /> },
   { path: "/:lng?/demo/todos", element: <IntroShowTodos /> },
   // { path: "/:lng?/demo/app", element: <IntroShowMobile /> },
-  // { path: "/:lng?/demo/app-picker", element: <AppPicker />, step: "oem" },
-  // { path: "/:lng?/oem/prove", element: <OEM.ProveIdentity />, step: "oem", poweredBy: <TangleLabs /> },
-  // { path: "/:lng?/oem/signin", element: <OEM.SingInConfirmation />, step: "oem", poweredBy: <TangleLabs />  },
-  { path: "/:lng?/oem/receive", element: <OEM.ReceiveCredentials />, step: "oem", poweredBy: <TangleLabs /> },
-  { path: "/:lng?/oem/confirm", element: <OEM.Confirmation />, step: "oem", poweredBy: <TangleLabs /> },
+  { path: "/:lng?/oem/receive_vehicle_information", element: <OEM.ReceiveVehicleInformationCredentials />, step: "oem", poweredBy: <Impierce /> },
+  { path: "/:lng?/oem/confirm_vehicle_information", element: <OEM.VehicleInformationConfirmation />, step: "oem", poweredBy: <Impierce /> },
   // { path: "/:lng?/ta/prove", element: <TA.ProveIdentity />, step: "ta", poweredBy: <Impierce />  },
   // { path: "/:lng?/ta/signin", element: <TA.SingInConfirmation />, step: "ta", poweredBy: <Impierce /> },
-  { path: "/:lng?/ta/provide", element: <TA.ProvideData />, step: "ta", poweredBy: <Impierce /> },
-  { path: "/:lng?/ta/data", element: <TA.CompanyData />, step: "ta", poweredBy: <Impierce /> },
-  { path: "/:lng?/ta/receive", element: <TA.ReceiveCredentials />, step: "ta", poweredBy: <Impierce /> },
-  { path: "/:lng?/ta/confirm", element: <TA.Confirmation />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/provide_vehicle_information", element: <TA.ProvideVehicleInformationData />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/display_vehicle_information", element: <TA.DisplayVehicleInformationData />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/receive_vehicle_registration", element: <TA.ReceiveVehicleRegistrationCredentials />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/confirm_vehicle_registration", element: <TA.ReceivedVehicleRegistrationConfirmation />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/receive_vehicle_ownership", element: <TA.ReceiveVehicleOwnershipCredentials />, step: "ta", poweredBy: <Impierce /> },
+  { path: "/:lng?/ta/confirm_vehicle_ownership", element: <TA.ReceivedVehicleOwnershipConfirmation />, step: "ta", poweredBy: <Impierce /> },
   { path: "/:lng?/demo/success", element: <GreatSuccess /> },
   { path: "/:lng?/demo/thankyou", element: <ThankYou /> },
 ];

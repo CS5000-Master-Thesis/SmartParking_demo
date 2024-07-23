@@ -5,6 +5,11 @@ import { catchError, firstValueFrom } from 'rxjs';
 import { SIOPV2RequestConfig } from './siopv2';
 import { OID4VPRequestConfig } from './oid4vp';
 import { OfferConfig } from './oid4vci';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
+
+interface Vc {
+  type: string[];
+}
 
 @Injectable()
 export class OID4VCImpierceService {
@@ -89,10 +94,18 @@ export class OID4VCImpierceService {
     credential: string,
   ): Promise<string> {
 
+
+
+
+    const parsedCredential = jwtDecode<JwtPayload & { vc: Vc }>(credential);
+
+    this.logger.debug('7777 Creential', parsedCredential);
+
     const dsa = {
       offerId: offer_id,
       credential: credential,
-      credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
+      credentialConfigurationId: parsedCredential.vc.type.at(-1) as string,
+      // credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
       isSigned: true,
     }
 

@@ -9,9 +9,13 @@ import { Actions, useCredentialsDispatch, useGlobalState } from '../../context/g
 import { Providers } from '@shared/types/Providers';
 // import { Issuers } from '@shared/types/Issuers';
 import { Scopes } from '@shared/types/Scopes';
-// import { copyFile } from 'fs';
 
-const ProveIdentity: React.FC = () => {
+import { v4 as uuidv4 } from 'uuid';
+import VehicleInformationCredentialConfig from "@shared/credentials/1_VehicleInformationCredential.json";
+
+
+
+const ProvideVehicleInformationData: React.FC = () => {
     const { t } = useTranslation();
 
     const { nextStep } = useStep();
@@ -26,25 +30,25 @@ const ProveIdentity: React.FC = () => {
     }, [nextStep, navigate]);
 
     useEffect(() => {
-        dispatch?.({type: Actions.REQUEST_INVITE, provider: Providers.Impierce, scope: Scopes.TA});
+
+        dispatch?.({
+            type: Actions.REQUEST_PRESENTATION,
+            provider: Providers.Impierce,
+            presentationDefinition: {
+                id: uuidv4(),
+                input_descriptors: VehicleInformationCredentialConfig.input_descriptors
+            },
+            scope: Scopes.TA_ev_reg,
+
+        })
+
     }, [dispatch]);
 
     useEffect(() => {
-        if(state[Scopes.TA]?.connectedDID) {
+        if (state[Scopes.TA_ev_reg]?.credentials?.length) {
             goToNextStep();
         }
     }, [state, goToNextStep])
-    
-    // const messages = {
-    //     waiting: 'general.messages.waiting',
-    //     connectionError: 'general.messages.connectionError',
-    //     missing: 'general.messages.missing',
-    //     verifying: 'general.messages.verifying'
-    // };
-
-    // function setStatusMessage(message: string) {
-    //     setStatus(message);
-    // }
 
     return (
         <Layout>
@@ -58,7 +62,7 @@ const ProveIdentity: React.FC = () => {
                     </p>
                     <div className='qr-wrapper'>
                         {/* TODO: Handle loading state */}
-                        <QRCode text={state[Scopes.TA]?.QRcontent ?? ""} />
+                        <QRCode text={state[Scopes.TA_ev_reg]?.QRcontent ?? ""} />
                     </div>
                     <p className='bold'>{t(status)}</p>
                     {loading && <Loading />}
@@ -68,4 +72,4 @@ const ProveIdentity: React.FC = () => {
     );
 };
 
-export default ProveIdentity;
+export default ProvideVehicleInformationData;

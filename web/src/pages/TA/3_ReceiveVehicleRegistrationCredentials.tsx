@@ -1,17 +1,16 @@
 import React, { useCallback, useEffect, useState } from 'react';
-// import randomstring from 'randomstring';
 import { Layout, Loading, QRCode, RandomGraphicElement } from '../../components';
 import useStep from '../../utils/useStep';
-// import config from '../../config.json';
 import { useTranslation, Trans } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Actions, useCredentialsDispatch, useGlobalState } from '../../context/globalState';
+import { Issuers } from '@shared/types/Issuers';
 import { Providers } from '@shared/types/Providers';
-// import { Issuers } from '@shared/types/Issuers';
 import { Scopes } from '@shared/types/Scopes';
-// import { copyFile } from 'fs';
+import VehicleRegistrationCredentialConfig from "@shared/credentials/2_VehicleRegistrationCredential.json";
 
-const ProveIdentity: React.FC = () => {
+
+const ReceiveVehicleInformationCredentials: React.FC = () => {
     const { t } = useTranslation();
 
     const { nextStep } = useStep();
@@ -26,25 +25,20 @@ const ProveIdentity: React.FC = () => {
     }, [nextStep, navigate]);
 
     useEffect(() => {
-        dispatch?.({type: Actions.REQUEST_INVITE, provider: Providers.Impierce, scope: Scopes.TA});
+        dispatch?.({
+            type: Actions.REQUEST_ISSUANCE,
+            provider: Providers.Impierce,
+            scope: Scopes.TA_ev_reg,
+            credentials: [{type: VehicleRegistrationCredentialConfig.template.type.at(-1) as string, data: state.TA_ev_reg?.issuanceData}],
+            issuer: Issuers.TA 
+        })
     }, [dispatch]);
 
     useEffect(() => {
-        if(state[Scopes.TA]?.connectedDID) {
+        if(state[Scopes.TA_ev_reg]?.issuanceComplete) {
             goToNextStep();
         }
     }, [state, goToNextStep])
-    
-    // const messages = {
-    //     waiting: 'general.messages.waiting',
-    //     connectionError: 'general.messages.connectionError',
-    //     missing: 'general.messages.missing',
-    //     verifying: 'general.messages.verifying'
-    // };
-
-    // function setStatusMessage(message: string) {
-    //     setStatus(message);
-    // }
 
     return (
         <Layout>
@@ -58,7 +52,7 @@ const ProveIdentity: React.FC = () => {
                     </p>
                     <div className='qr-wrapper'>
                         {/* TODO: Handle loading state */}
-                        <QRCode text={state[Scopes.TA]?.QRcontent ?? ""} />
+                        <QRCode text={state.TA_ev_reg?.QRcontent ?? ""} />
                     </div>
                     <p className='bold'>{t(status)}</p>
                     {loading && <Loading />}
@@ -68,4 +62,4 @@ const ProveIdentity: React.FC = () => {
     );
 };
 
-export default ProveIdentity;
+export default ReceiveVehicleInformationCredentials;
