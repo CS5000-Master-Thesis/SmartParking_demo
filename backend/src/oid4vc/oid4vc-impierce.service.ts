@@ -93,19 +93,14 @@ export class OID4VCImpierceService {
     offer_id: string,
     credential: string,
   ): Promise<string> {
-
-
-
-
     const parsedCredential = jwtDecode<JwtPayload & { vc: Vc }>(credential);
-
     this.logger.debug('7777 Creential', parsedCredential);
 
     const dsa = {
       offerId: offer_id,
       credential: credential,
-      credentialConfigurationId: parsedCredential.vc.type.at(-1) as string,
-      // credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
+      // credentialConfigurationId: parsedCredential.vc.type.at(-1) as string,
+      credentialConfigurationId: 'w3c_vc_credential', // must match oid4vc/impierce/issuance_config.yml
       isSigned: true,
     }
 

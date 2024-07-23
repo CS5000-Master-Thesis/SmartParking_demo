@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
-import { RandomGraphicElement } from '../components';
-import DropSelector from '../components/DropSelector';
 import useStep from '../utils/useStep';
-import howItWorks from '../assets/landing/howItWorks1.png';
-import dots from '../assets/backgrounds/dots.png';
-import logo from '../assets/landing/logoHeader.svg';
+import includedParticipants from '../assets/landing/included_participants.png';
 import { useTranslation, Trans } from 'react-i18next';
 
 /**
@@ -30,24 +26,20 @@ const IntroShowTodos: React.FC = () => {
     }, []);
 
     return (
-        <RandomGraphicElement elements={7}>
             <div className='theme-demo'>
-                <Link to={'/'} className="logo demo-page">
+                {/* <Link to={'/'} className="logo demo-page">
                     <img src={logo} alt="Selv logo" />
-                </Link>
-                <div className="demo-drop-selector">
-                    <DropSelector />
-                </div>
+                </Link> */}
                 <div className='demo-intro' id='app'>
                     <div className='todos'>
-                        <span className='heading'><h2>{t("pages.demo.introShowTodos.welcomeToThe")}</h2>&nbsp;&nbsp;&nbsp;<h2 className='highlight'>{t("pages.demo.introShowTodos.selvDemo")}</h2></span>
+                        <span className='heading'><h2>{"Welcome to the"}</h2><h2 className='highlight'>{"Smart Parking Demo"}</h2></span>
                         <Trans i18nKey="pages.demo.introShowTodos.hereIsTodo">
                             <h3>Here is <strong>your to-do list</strong> for today:</h3>
                         </Trans>
                         <ul className='todos'>
-                            <li>{t("pages.demo.introShowTodos.setUpCompany")}</li>
-                            <li>{t("pages.demo.introShowTodos.getBankAccount")}</li>
-                            <li>{t("pages.demo.introShowTodos.getLiabilityInsurance")}</li>
+                            <li>{"Receive credentials"}</li>
+                            <li>{"Provide credentials"}</li>
+                            <li>{"Prove identity"}</li>
                         </ul>
                         <Link to={nextStep}>
                             <Button className='cta'>
@@ -56,13 +48,10 @@ const IntroShowTodos: React.FC = () => {
                         </Link>
                     </div>
                     <div className='image-wrapper'>
-                        <img src={howItWorks} alt='how It Works' className='howItWorks' />
+                        <img src={includedParticipants} alt='Included participants' />
                     </div>
-                    <img src={dots} alt='' className='dots-top' />
-                    <img src={dots} alt='' className='dots-bottom' />
                 </div>
             </div>
-        </RandomGraphicElement>
     );
 };
 

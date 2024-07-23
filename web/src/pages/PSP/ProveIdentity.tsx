@@ -1,23 +1,19 @@
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import randomstring from 'randomstring';
-import { Layout, Loading, QRCode, RandomGraphicElement, WebSocket } from '../../components';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Layout, Loading, QRCode, RandomGraphicElement } from '../../components';
 import useStep from '../../utils/useStep';
-import config from '../../config.json';
 import { useTranslation, Trans } from 'react-i18next';
-import { Router, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Actions, useCredentialsDispatch, useGlobalState } from '../../context/globalState';
 import { Providers } from '@shared/types/Providers';
-import { Issuers } from '@shared/types/Issuers';
 import { Scopes } from '@shared/types/Scopes';
-import { copyFile } from 'fs';
 
 const ProveIdentity: React.FC = () => {
     const { t } = useTranslation();
 
     const { nextStep } = useStep();
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
-    const [status, setStatus] = useState("pages.general.proveIdentity.waitingForLogin");
+    const [loading ] = useState(true);
+    const [status] = useState("pages.general.proveIdentity.waitingForLogin");
     const dispatch = useCredentialsDispatch();
     const { state } = useGlobalState();
 
@@ -34,17 +30,6 @@ const ProveIdentity: React.FC = () => {
             goToNextStep();
         }
     }, [state, goToNextStep])
-    
-    const messages = {
-        waiting: 'general.messages.waiting',
-        connectionError: 'general.messages.connectionError',
-        missing: 'general.messages.missing',
-        verifying: 'general.messages.verifying'
-    };
-
-    function setStatusMessage(message: string) {
-        setStatus(message);
-    }
 
     return (
         <Layout>

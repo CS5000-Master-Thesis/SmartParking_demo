@@ -171,7 +171,7 @@
     .image-wrapper {
         display: inline-block;
         position: relative;
-        width: 100%;
+        width: 90%;
         max-width: 50%;
 
         @include breakPoint(medium) {
@@ -180,7 +180,7 @@
         }
 
         img {
-            max-width: 100%;
+            max-width: 90%;
             z-index: 2;
         }
     }
