@@ -60,6 +60,18 @@
     width: 156px;
     z-index: 2;
 
+    .sidebar-participants {
+        display: inline-block;
+        position: relative;
+        margin-bottom: 25px;
+        width: 300px;
+
+        img {
+            max-width: 100%;
+            z-index: 2;
+        }
+    }
+
     .sidebar-links {
         width: 100%;
         display: flex;

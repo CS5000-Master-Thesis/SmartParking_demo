@@ -263,7 +263,7 @@ export class WebAppService {
 
                   case '**TEMPLATE_RANDOM_DATE':
                     const start = new Date();
-                    obj[key] = new Date( start.getDate() + Math.random() * 100 ).toISOString(); 
+                    obj[key] = new Date( start.getTime() + Math.random() * 100000 ).toISOString(); 
                     break;
 
                   default:

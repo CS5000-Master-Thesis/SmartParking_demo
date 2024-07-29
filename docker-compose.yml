@@ -1,4 +1,31 @@
 services:
+  traefik:
+    image: traefik:v3.1
+    command:
+      - "--api.insecure=true" # Enable dashboard
+      - "--accesslog=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.grpc.address=:5000"
+      - "--log.level=DEBUG"
+    ports:
+      - "${HTTP_PORT}:80/tcp"
+      - "${GRPC_PORT}:5000/tcp"
+      - "8080:8080" # Dashboard
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  whoami:
+    # A container that exposes an API to show its IP address
+    image: traefik/whoami
+    expose:
+      - "80"
+    labels:
+      traefik.enable: true
+      traefik.http.routers.whoami.rule: Host(`whoami.localhost`)
+      traefik.http.routers.whoami.entrypoints: web
+
   valkey:
     image: valkey/valkey:7.2.5
     restart: unless-stopped
@@ -13,11 +40,21 @@ services:
       - "3000"
       - "50051"
     ports:
-      - "127.0.0.1:3000:3000/tcp"
+      - "3000:3000"
     # depends_on:
     #   - valkey
     #   - identity
     # restart: unless-stopped
+    volumes:
+      - ./backend/src:/backend/src
+      - ./web/build:/web/build
+      - ./proto:/proto
+      - ./types:/types
+      - ./data/did-configuration.json:/web/build/.well-known/did-configuration.json:ro
+    entrypoint:
+      - npm
+      - run
+      - start:dev
     environment:
       ISSUERS_OEM_DID: ${ISSUERS_OEM_DID}
       ISSUERS_OEM_FRAGMENT: ${ISSUERS_OEM_FRAGMENT}
@@ -27,6 +64,20 @@ services:
       ISSUERS_PSP_FRAGMENT: ${ISSUERS_PSP_FRAGMENT}
       ISSUERS_PLO_DID: ${ISSUERS_PLO_DID}
       ISSUERS_PLO_FRAGMENT: ${ISSUERS_PLO_FRAGMENT}
+    labels:
+      traefik.enable: true
+      # Using nip.io DNS resolver -> smartparking.127.0.0.1.nip.io -> 127.0.0.1
+      traefik.http.routers.backend.rule: Host(`smartparking.localhost`)
+      traefik.http.routers.backend.entrypoints: web
+      traefik.http.routers.backend.service: backend
+      traefik.http.services.backend.loadbalancer.server.port: "3000"
+      traefik.http.routers.backend-grpc.rule: PathPrefix(`/backend`)
+      traefik.http.routers.backend-grpc.middlewares: backend-grpc-stripprefix
+      traefik.http.middlewares.backend-grpc-stripprefix.stripprefix.prefixes: /backend
+      traefik.http.routers.backend-grpc.entrypoints: grpc
+      traefik.http.routers.backend-grpc.service: svc_backend-grpc
+      traefik.http.services.svc_backend-grpc.loadbalancer.server.port: "50051"
+      traefik.http.services.svc_backend-grpc.loadbalancer.server.scheme: h2c
 
   identity:
     image: iotaleger/identity-grpc
@@ -41,40 +92,16 @@ services:
     expose:
       - "50051"
     labels:
-      traefik.enable: false
+      traefik.enable: true # false?
+      traefik.http.routers.identity-grpc.rule: PathPrefix(`/identity`)
+      traefik.http.routers.identity-grpc.middlewares: identity-grpc-stripprefix
+      traefik.http.middlewares.identity-grpc-stripprefix.stripprefix.prefixes: /identity
+      traefik.http.routers.identity-grpc.entrypoints: grpc
+      traefik.http.routers.identity-grpc.service: svc_identity-grpc
+      traefik.http.services.svc_identity-grpc.loadbalancer.server.port: "50051"
+      traefik.http.services.svc_identity-grpc.loadbalancer.server.scheme: h2c
     secrets:
       - stronghold_pwd
-
-  oid4vc-tanglelabs:
-    build:
-      context: ./
-      dockerfile: ./oid4vc/TangleLabs/Dockerfile
-    restart: unless-stopped
-    environment:
-      RP_DID: ${ISSUERS_TA_DID}
-      SIGNER_KEYID: ${ISSUERS_TA_KEYID}
-      KEY_FRAGMENT: ${ISSUERS_TA_FRAGMENT}
-      PUBLIC_URL: ${TA_PUBLIC_URL}
-    expose:
-      - "3333"
-      - "50051"
-    ports:
-      - "${LOCAL_IP_ADDRESS}:3333:3333/tcp"
-    volumes:
-      - ./shared:/usr/shared
-
-  # oid4vc-waltid:
-  #   build:
-  #     context: ./
-  #     dockerfile: ./oid4vc/walt.id/Dockerfile
-  #   restart: unless-stopped
-  #   expose:
-  #     - '3000'
-  #     - '50051'
-  #   ports:
-  #     - "127.0.0.1:3001:3000/tcp"
-  #   volumes:
-  #     - ./shared:/usr/shared
 
   oid4vc-impierce:
     image: impiercetechnologies/ssi-agent:c25f9da
@@ -99,7 +126,7 @@ services:
         "export AGENT_CONFIG_STRONGHOLD_PASSWORD=$$(cat /run/secrets/stronghold_pwd) ; /usr/local/bin/agent_application",
       ]
     environment:
-      AGENT_CONFIG_URL: ${OEM_PUBLIC_URL}
+      AGENT_CONFIG_URL: http://${LOCAL_IP_ADDRESS}:3033 #${OEM_PUBLIC_URL}
       AGENT_SECRET_MANAGER_STRONGHOLD_PATH: /stronghold.hodl
       AGENT_CONFIG_ISSUER_KEY_ID: ${ISSUERS_OEM_KEYID}
       AGENT_CONFIG_ISSUER_DID: ${ISSUERS_OEM_DID}
@@ -110,6 +137,19 @@ services:
       AGENT_CONFIG_EVENT_STORE: postgres
       AGENT_STORE_DB_CONNECTION_STRING: postgresql://demo_user:demo_pass@cqrs-postgres-db:5432/demo
       #RUST_LOG: debug
+    labels:
+      traefik.enable: true
+      traefik.http.routers.oid4vc-impierce.rule: Host(`impierce.localhost`)
+      traefik.http.routers.oid4vc-impierce.entrypoints: web
+      traefik.http.routers.oid4vc-impierce.service: oid4vc-impierce
+      traefik.http.services.oid4vc-impierce.loadbalancer.server.port: "3033"
+      traefik.http.routers.oid4vc-impierce-grpc.rule: PathPrefix(`/oid4vc-impierce`)
+      traefik.http.routers.oid4vc-impierce-grpc.middlewares: oid4vc-impierce-grpc-stripprefix
+      traefik.http.middlewares.oid4vc-impierce-grpc-stripprefix.stripprefix.prefixes: /oid4vc-impierce
+      traefik.http.routers.oid4vc-impierce-grpc.entrypoints: grpc
+      traefik.http.routers.oid4vc-impierce-grpc.service: svc_oid4vc-impierce-grpc
+      traefik.http.services.svc_oid4vc-impierce-grpc.loadbalancer.server.port: "50051"
+      traefik.http.services.svc_oid4vc-impierce-grpc.loadbalancer.server.scheme: h2c
     secrets:
       - stronghold_pwd
 
@@ -124,6 +164,11 @@ services:
       POSTGRES_PASSWORD: demo_pass
     volumes:
       - "./oid4vc/impierce/db:/docker-entrypoint-initdb.d"
+
+  # grpcurl:
+  #   image: fullstorydev/grpcurl:latest
+  #   volumes:
+  #     - ./proto:/proto
 
 secrets:
   stronghold_pwd:

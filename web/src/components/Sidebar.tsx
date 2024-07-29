@@ -1,20 +1,12 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
-// import logo from '../assets/landing/logoHeader.svg';
 import frame from '../assets/backgrounds/circleFrame5.svg';
-// import DropSelector from './DropSelector';
 import { useTranslation } from 'react-i18next';
 import IOTA from './powerdBy/IOTA';
 
-// const externalPages = [
-//     { url: '/', title: 'Home' },
-//     { url: '/#faq', title: 'FAQ' },
-//     { url: 'https://iota.org', title: 'IOTA.org' }
-// ];
-
-const SidebarInstance = ({ children, poweredBy }: {
+const SidebarInstance = ({ children, poweredBy, currentParticipants }: {
     children?: JSX.Element | null | undefined;
     poweredBy?: JSX.Element;
+    currentParticipants?: JSX.Element;
 }) => {
     const { t } = useTranslation();
 
@@ -22,10 +14,6 @@ const SidebarInstance = ({ children, poweredBy }: {
         <div className='sidebar-wrapper'>
             <div>
                 <div className='sidebar-wrapper__header'>
-
-                    {/* <Link to='/demo/todos'>
-                        <img src={logo} alt='Selv logo' className='sidebar-logo' />
-                    </Link> */}
                     <div className="sidebar-drop-selector">
                         {/* <DropSelector /> */}
                     </div>
@@ -39,19 +27,10 @@ const SidebarInstance = ({ children, poweredBy }: {
 
             </div>
             <div className='sidebar-footer'>
-                {/* <div className='sidebar-links'>
-                    {externalPages.map(page => (
-                        <a
-                            href={page.url}
-                            key={page.title}
-                            className='external-menu-link'
-                            target='_blank'
-                            rel='noopener noreferrer'
-                        >
-                            {page.title}
-                        </a>
-                    ))}
-                </div> */}
+                <div className='sidebar-participants'>
+                    { currentParticipants }
+                </div>
+
                <IOTA/>
                 {poweredBy && (
                     <>

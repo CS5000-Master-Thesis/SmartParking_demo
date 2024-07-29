@@ -39,8 +39,6 @@ const RandomGraphicElement = ({ children, elements }: {
             element: getRandomInt(graphics.length),
             top: 50 + getRandomInt(dimensions.height - 100),
             left: 50 + getRandomInt(dimensions.width - 100)
-        
-
         }))
     }, [elements, dimensions])
 

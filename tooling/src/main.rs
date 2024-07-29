@@ -11,6 +11,7 @@ use identity_iota::credential::Credential;
 use identity_iota::credential::DomainLinkageConfiguration;
 use identity_iota::credential::DomainLinkageCredentialBuilder;
 use identity_iota::credential::Jws;
+use identity_iota::credential::Jwt;
 use identity_iota::credential::LinkedDomainService;
 use identity_iota::did::DID as _;
 use identity_iota::document::verifiable::JwsVerificationOptions;
@@ -80,6 +81,8 @@ async fn main() -> anyhow::Result<()> {
         .finish()
         .await?;
 
+    println!("Password: {pw_string}");
+
     let stronghold = StrongholdSecretManager::builder()
         .password(password.clone())
         .build(PATH)?;
@@ -100,9 +103,11 @@ async fn main() -> anyhow::Result<()> {
     let mut env_file = std::fs::File::create(".env")?;
     writeln!(env_file, "HTTP_PORT=80\nGRPC_PORT=5001")?;
     writeln!(env_file, "LOCAL_IP_ADDRESS={my_local_ip}")?;
+
+    let mut domain_linkage_jwts: Vec<Jwt> = vec![];
+
     for name in issuers {
-        let domain =
-            format!("https://{}.{public_url_domain}", name.to_lowercase()).parse::<Url>()?;
+        let domain = format!("{public_url_domain}").parse::<Url>()?;
         let (did, key_id, fragment, _address, domain_linkage_config) =
             create_issuer(&stronghold_storage, &client, domain.clone()).await?;
         let name = name.to_uppercase();
@@ -110,13 +115,17 @@ async fn main() -> anyhow::Result<()> {
         writeln!(env_file, "ISSUERS_{name}_KEYID={key_id}")?;
         writeln!(env_file, "ISSUERS_{name}_FRAGMENT={fragment}")?;
         writeln!(env_file, "{name}_PUBLIC_URL={domain}")?;
-
-        let mut domain_linkage_resource_file = {
-            let file_name = format!("./{}-did-configuration.json", name.to_lowercase());
-            std::fs::File::create(&file_name)?
-        };
-        domain_linkage_resource_file.write_all(domain_linkage_config.to_json()?.as_bytes())?;
+        domain_linkage_jwts.push(domain_linkage_config);
     }
+
+    // Write domain linkage configuration
+    let domain_linkage_config = DomainLinkageConfiguration::new(domain_linkage_jwts);
+
+    let mut domain_linkage_resource_file = {
+        let file_name = "./did-configuration.json";
+        std::fs::File::create(&file_name)?
+    };
+    domain_linkage_resource_file.write_all(domain_linkage_config.to_json()?.as_bytes())?;
 
     Ok(())
 }
@@ -125,7 +134,7 @@ async fn create_issuer(
     stronghold_storage: &StrongholdStorage,
     client: &Client,
     domain_to_link: Url,
-) -> anyhow::Result<(String, KeyId, String, Address, DomainLinkageConfiguration)> {
+) -> anyhow::Result<(String, KeyId, String, Address, Jwt)> {
     // Create a DID document.
     let address: Address = get_address_with_funds(
         client,
@@ -184,7 +193,7 @@ async fn create_issuer(
         .await?;
 
     // Create a domain linkage configuration
-    let domain_linkage_config = document
+    let domain_linkage_jwt = document
         .create_credential_jwt(
             &domain_linkage_credential,
             &storage,
@@ -193,7 +202,7 @@ async fn create_issuer(
             None,
         )
         .await
-        .map(|jwt| DomainLinkageConfiguration::new(vec![jwt]))?;
+        .unwrap();
 
     // Resolve the published DID Document.
     let mut resolver = Resolver::<IotaDocument>::new();
@@ -223,7 +232,7 @@ async fn create_issuer(
         key_id,
         fragment,
         address,
-        domain_linkage_config,
+        domain_linkage_jwt,
     ))
 }
 

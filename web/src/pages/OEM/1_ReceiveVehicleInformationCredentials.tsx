@@ -3,10 +3,9 @@ import {
   Layout,
   Loading,
   QRCode,
-  RandomGraphicElement,
 } from "../../components";
 import useStep from "../../utils/useStep";
-import { useTranslation, Trans } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import {
   Actions,
@@ -24,7 +23,6 @@ const ReceiveVehicleInformationCredentials: React.FC = () => {
   const { nextStep } = useStep();
   const navigate = useNavigate();
   const [loading] = useState(true);
-  const [status] = useState("pages.general.proveIdentity.waitingForLogin");
   const dispatch = useCredentialsDispatch();
   const { state } = useGlobalState();
 
@@ -50,35 +48,19 @@ const ReceiveVehicleInformationCredentials: React.FC = () => {
     }
   }, [state, goToNextStep]);
 
-  // const messages = {
-  //   waiting: "general.messages.waiting",
-  //   connectionError: "general.messages.connectionError",
-  //   missing: "general.messages.missing",
-  //   verifying: "general.messages.verifying",
-  // };
-
-  // function setStatusMessage(message: string) {
-  //   setStatus(message);
-  // }
-
   return (
     <Layout>
-      <RandomGraphicElement elements={5}>
         <div className="scan-qr-page-wrapper">
           <h2>{t("pages.general.proveIdentity.provideCredentials")}</h2>
           <p>
-            <Trans i18nKey="pages.general.proveIdentity.scanToContinue">
-              Scan this QR code with <strong>Selv App</strong> to continue
-            </Trans>
+              Scan this QR code with <strong>UniMe</strong> to continue
           </p>
           <div className="qr-wrapper">
             {/* TODO: Handle loading state */}
             <QRCode text={state.OEM?.QRcontent ?? ""} />
           </div>
-          <p className="bold">{t(status)}</p>
           {loading && <Loading />}
         </div>
-      </RandomGraphicElement>
     </Layout>
   );
 };

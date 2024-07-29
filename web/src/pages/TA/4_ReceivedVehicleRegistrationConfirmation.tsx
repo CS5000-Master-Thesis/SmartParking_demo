@@ -1,67 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Button } from 'antd';
-import { getCompanyId } from '../../utils/helper';
-import useStep from '../../utils/useStep';
-import { Layout, RandomGraphicElement } from '../../components';
-import selv from '../../assets/selvSuccessBordered.svg';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Button } from "antd";
+import useStep from "../../utils/useStep";
+import { Layout } from "../../components";
+import checkmark from "../../assets/checkmark.svg";
 
 /**
  * Component which will display a Confirmation.
  */
 const ReceivedVehicleInformationConfirmation: React.FC = () => {
-    const { nextStep, theme } = useStep();
-    const [companyId, setCompanyId] = useState('');
-    const [title, setTitle] = useState('');
+  const { nextStep } = useStep();
 
-    const { t } = useTranslation();
-
-    useEffect(() => {
-        async function determineCompanyId () {
-            setCompanyId(await getCompanyId());
-            switch (theme) {
-            case 'bank':
-                setTitle("pages.general.confirmation.titleBank");
-                break;
-            case 'insurance':
-                setTitle("pages.general.confirmation.titleInsurance");
-                break;
-            case 'company':
-                setTitle("pages.general.confirmation.titleCompany");
-                break;
-            default:
-                setTitle("pages.general.confirmation.titleCompany");
-                break;
-            }
-        }
-        determineCompanyId();
-    }, [companyId, theme]);
-
-    return (
-        <Layout>
-            <RandomGraphicElement elements={5}>
-                <div className='confirmation-page'>
-                    <div className='selv-wrapper'>
-                        <img src={selv} alt='Selv app logo' />
-                        <h4>{t("pages.general.confirmation.credentialsToSelv")}</h4>
-                    </div>
-                    <h2>{t(title)}</h2>
-                    {
-                        theme === 'company' &&
-                            <p>{t("pages.general.confirmation.proudOwnerOfCompany")}</p>
-                    }
-                    <Link to={nextStep}>
-                        <Button>
-                            {
-                                theme === 'company' ? t("actions.continue") : t("pages.general.confirmation.returnToCompany") 
-                            }
-                        </Button>
-                    </Link>
-                </div>
-            </RandomGraphicElement>
-        </Layout>
-    );
+  return (
+    <Layout>
+      <div className="confirmation-page">
+        <div className="selv-wrapper">
+          <img src={checkmark} alt="Checkmark" />
+          <h4>{"EV registration credential sent"}</h4>
+        </div>
+        <Link to={nextStep}>
+          <Button>{"Continue"}</Button>
+        </Link>
+      </div>
+    </Layout>
+  );
 };
 
 export default ReceivedVehicleInformationConfirmation;

@@ -32,6 +32,7 @@ const Layout = ({ children, customTheme, customStep, noHeader, noFooter }: {
                     customStep || currentRoute?.step ? (
                         <Sidebar
                             poweredBy={currentRoute?.poweredBy}
+                            currentParticipants={currentRoute?.currentParticipants}
                         >
                             <Steps
                                 steps={mainSteps}

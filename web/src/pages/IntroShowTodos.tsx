@@ -2,16 +2,13 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from 'antd';
 import useStep from '../utils/useStep';
-import includedParticipants from '../assets/landing/included_participants.png';
-import { useTranslation, Trans } from 'react-i18next';
+import participantsAll from '../assets/currentParticipants/participants_all.png';
 
 /**
  * Component which will display a IntroShowTodos.
  */
 const IntroShowTodos: React.FC = () => {
     const { nextStep } = useStep();
-
-    const { t } = useTranslation();
 
     useEffect(() => {
         const reset = async () => {
@@ -32,10 +29,8 @@ const IntroShowTodos: React.FC = () => {
                 </Link> */}
                 <div className='demo-intro' id='app'>
                     <div className='todos'>
-                        <span className='heading'><h2>{"Welcome to the"}</h2><h2 className='highlight'>{"Smart Parking Demo"}</h2></span>
-                        <Trans i18nKey="pages.demo.introShowTodos.hereIsTodo">
-                            <h3>Here is <strong>your to-do list</strong> for today:</h3>
-                        </Trans>
+                        <span className='heading'><h2><strong>Smart Parking Demo</strong></h2></span>
+                        <h3>Here is <strong>your to-do list</strong> for today:</h3>
                         <ul className='todos'>
                             <li>{"Receive credentials"}</li>
                             <li>{"Provide credentials"}</li>
@@ -43,12 +38,12 @@ const IntroShowTodos: React.FC = () => {
                         </ul>
                         <Link to={nextStep}>
                             <Button className='cta'>
-                                {t("actions.continue")}
+                                {"Continue"}
                             </Button>
                         </Link>
                     </div>
                     <div className='image-wrapper'>
-                        <img src={includedParticipants} alt='Included participants' />
+                        <img src={participantsAll} alt='All participants' />
                     </div>
                 </div>
             </div>
