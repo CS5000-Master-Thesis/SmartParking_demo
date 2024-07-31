@@ -73,6 +73,7 @@ export class OID4VCImpierceService {
           'http://oid4vc-impierce:3033/v0/offers',
           {
             offerId: request.state,
+            credentialTypes: request.credentials,
           },
           {
             responseType: 'formdata',

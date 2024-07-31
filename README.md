@@ -6,7 +6,8 @@
 
 ```shell
 # Init submodule
-git submodule update --init
+git submodule deinit -f .
+git submodule update --init --recursive --checkout
 
 # Enter directory
 cd identity.rs
@@ -22,7 +23,7 @@ docker build -f bindings/grpc/Dockerfile -t iotaleger/identity-grpc .
 cd ../ssi-agent
 
 # Update to commit
-git checkout 87c3e11ef8c56b52ba4ae0bdda293c366f43782a
+git checkout 4a8c787f388bb2cd8a3538e62f9de7efb95d1eb0
 
 # Navigate to
 cd agent_application
@@ -30,6 +31,8 @@ cd agent_application
 # Build image
 docker build -f docker/Dockerfile -t ssi-agent ..
 ```
+
+dsad
 
 ### 2. Create identities + env file
 
@@ -39,6 +42,8 @@ cd tooling
 
 # Run program
 cargo run --release -- smartparking.org oem ta psp plo
+
+cargo run --release -- https://impierce.smartparking.live oem ta psp plo
 
 
 cargo run --release -- https://hopelessly-optimal-seal.ngrok-free.app oem ta psp plo

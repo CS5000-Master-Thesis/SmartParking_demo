@@ -20,9 +20,10 @@ import ParticipantsOwnerPsp from "./components/current_participants/participants
 import ParticipantsOwnerTa from "./components/current_participants/participants_owner_ta";
 
 export const routes = [
-  { path: "/:lng?", element: <Landing /> },
-  { path: "/:lng?/demo/todos", element: <IntroShowTodos /> },
+  // { path: "/:lng?", element: <Landing /> },
+  // { path: "/:lng?/demo/todos", element: <IntroShowTodos /> },
   // { path: "/:lng?/demo/app", element: <IntroShowMobile /> },
+  { path: "/:lng?", element: <IntroShowTodos /> },
   { path: "/:lng?/oem/receive_vehicle_information", element: <OEM.ReceiveVehicleInformationCredentials />, step: "oem", poweredBy: <Impierce />, currentParticipants: <ParticipantsEvOem /> },
   { path: "/:lng?/oem/confirm_vehicle_information", element: <OEM.VehicleInformationConfirmation />, step: "oem", poweredBy: <Impierce />, currentParticipants: <ParticipantsEvOem /> },
   
@@ -36,8 +37,8 @@ export const routes = [
   { path: '/:lng?/psp/prove_idenity', element: <PSP.ProveIdentity/>, step: "psp", poweredBy: <Impierce/>, currentParticipants: <ParticipantsOwnerPsp /> },
   { path: '/:lng?/psp/signin_confirmation', element: <PSP.SingInConfirmation/>, step: "psp", poweredBy: <Impierce/>, currentParticipants: <ParticipantsOwnerPsp /> },
 
-  { path: "/:lng?/demo/success", element: <GreatSuccess /> },
-  { path: "/:lng?/demo/thankyou", element: <ThankYou /> },
+  // { path: "/:lng?/demo/success", element: <GreatSuccess /> },
+  // { path: "/:lng?/demo/thankyou", element: <ThankYou /> },
 ];
 
 //These are now just the keys for the translation that get dynamically loaded

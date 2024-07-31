@@ -80,8 +80,8 @@ services:
       traefik.http.services.svc_backend-grpc.loadbalancer.server.scheme: h2c
 
   identity:
-    image: iotaleger/identity-grpc
-    # image: iotaledger/identity-grpc:alpha
+    # image: iotaleger/identity-grpc
+    image: iotaledger/identity-grpc:alpha
     restart: unless-stopped
     environment:
       - API_ENDPOINT=https://api.testnet.shimmer.network
@@ -104,7 +104,8 @@ services:
       - stronghold_pwd
 
   oid4vc-impierce:
-    image: impiercetechnologies/ssi-agent:c25f9da
+    # image: impiercetechnologies/ssi-agent:c25f9da
+    image: ssi-agent
     depends_on:
       - cqrs-postgres-db
     restart: unless-stopped
