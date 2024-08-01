@@ -1,6 +1,0 @@
-[submodule "identity.rs"]
-	path = identity.rs
-	url = https://github.com/iotaledger/identity.rs.git
-[submodule "ssi-agent"]
-	path = ssi-agent
-	url = https://github.com/CS5000-Master-Thesis/ssi-agent.git
