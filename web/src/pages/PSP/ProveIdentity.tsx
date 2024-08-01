@@ -41,7 +41,7 @@ const ProveIdentity: React.FC = () => {
   return (
     <Layout>
       <div className="scan-qr-page-wrapper">
-        <h2>{t("pages.general.proveIdentity.provideCredentials")}</h2>
+        <h2>{"Provide Your Digital Identity Credentials"}</h2>
         <p>
           Scan this QR code with <strong>UniMe</strong> to continue
         </p>

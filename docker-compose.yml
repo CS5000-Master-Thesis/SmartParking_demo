@@ -105,7 +105,7 @@ services:
 
   oid4vc-impierce:
     # image: impiercetechnologies/ssi-agent:c25f9da
-    image: ssi-agent
+    image: kobeynator/ssi-agent
     depends_on:
       - cqrs-postgres-db
     restart: unless-stopped

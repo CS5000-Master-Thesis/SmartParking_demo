@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Form, Input } from "antd";
-import icon from "../assets/selv.svg";
+import icon from "../assets/lock.svg";
 
 const shortFields: string[] = ["Type", "Make", "Model", "Year"];
 

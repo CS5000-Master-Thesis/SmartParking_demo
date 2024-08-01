@@ -85,7 +85,7 @@ const DisplayVehicleInformationData: React.FC = ({ history, match }: any) => {
   return (
     <Layout>
       <div className="company-data-page-wrapper">
-        <h2>{t("Register EV")}</h2>
+        <h2>{"Register EV"}</h2>
         <section>
           <h3 className="section-header">{"EV information"}</h3>
           {validatedDomains && validatedDomains !== "in-flight" && (
@@ -99,7 +99,7 @@ const DisplayVehicleInformationData: React.FC = ({ history, match }: any) => {
           <Form
             dataFields={emptyFields}
             onSubmit={onSubmit}
-            submitLabel={t("actions.continue")}
+            submitLabel={"Continue"}
           />
         </section>
       </div>

@@ -5,7 +5,6 @@ import {
   QRCode,
 } from "../../components";
 import useStep from "../../utils/useStep";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import {
   Actions,
@@ -18,8 +17,6 @@ import { Scopes } from "@shared/types/Scopes";
 import VehicleInformationCredentialConfig from "@shared/credentials/1_VehicleInformationCredential.json";
 
 const ReceiveVehicleInformationCredentials: React.FC = () => {
-  const { t } = useTranslation();
-
   const { nextStep } = useStep();
   const navigate = useNavigate();
   const [loading] = useState(true);
@@ -51,12 +48,11 @@ const ReceiveVehicleInformationCredentials: React.FC = () => {
   return (
     <Layout>
         <div className="scan-qr-page-wrapper">
-          <h2>{t("pages.general.proveIdentity.provideCredentials")}</h2>
+          <h2>{"Receive Vehicle Identitification Credential"}</h2>
           <p>
               Scan this QR code with <strong>UniMe</strong> to continue
           </p>
           <div className="qr-wrapper">
-            {/* TODO: Handle loading state */}
             <QRCode text={state.OEM?.QRcontent ?? ""} />
           </div>
           {loading && <Loading />}

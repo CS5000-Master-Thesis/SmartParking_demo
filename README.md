@@ -32,8 +32,6 @@ cd agent_application
 docker build -f docker/Dockerfile -t ssi-agent ..
 ```
 
-dsad
-
 ### 2. Create identities + env file
 
 ```shell
@@ -41,11 +39,9 @@ dsad
 cd tooling
 
 # Run program
-cargo run --release -- smartparking.org oem ta psp plo
-
 cargo run --release -- https://impierce.smartparking.live oem ta psp plo
 
-
+# Example
 cargo run --release -- https://hopelessly-optimal-seal.ngrok-free.app oem ta psp plo
 
 
@@ -55,37 +51,27 @@ cargo run --release -- https://hopelessly-optimal-seal.ngrok-free.app oem ta psp
 
 ```shell
 # Build images and start container (only need to have the --build the first time)
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
+docker-compose up -d --build
 
 # Start container
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker-compose up -d
 
 # Stop container
-docker-compose -f docker-compose.yml -f docker-compose.dev.yml down
+docker-compose down
 ```
 
 ### 4. Open demo site
 
 - http://localhost:3000/
 
-#### Update hosts file
-
-Add these to hosts file 'C:\Windows\System32\drivers\etc\hosts'
-
-```shell
-127.0.0.1   selv.local
-# 127.0.0.1   bank.selv.local
-# 127.0.0.1   government.selv.local
-# 127.0.0.1   insurance.selv.local
-```
 
 # NGROK
+You can use ngrok to create a tunnel to your localhost:3000.
 
 ```shell
-ngrok http 80 --request-header-add "ngrok-skip-browser-warning"
-
-
+# Dynamic domain
 ngrok http 3000 --request-header-add "ngrok-skip-browser-warning: 1"
 
+# If you have a static domain 
 ngrok http --domain=hopelessly-optimal-seal.ngrok-free.app 3000
 ```

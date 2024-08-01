@@ -16,7 +16,7 @@ const Confirmation: React.FC = () => {
       <div className="confirmation-page">
         <div className="selv-wrapper">
           <img src={checkmark} alt="Checkmark" />
-          <h4>{"EV information credential sent"}</h4>
+          <h4>{"Vehicle information credential sent"}</h4>
         </div>
         <Link to={nextStep}>
           <Button>{"Continue"}</Button>
