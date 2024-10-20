@@ -1,6 +1,9 @@
 # SmartParking Demo
 
+This repository is copied from [https://github.com/iotaledger/selv](https://github.com/iotaledger/selv) and made some modifaications to match our needs.
+
 ## Initial Setup for running the example
+
 ### 1. Create identities + env file
 
 ```shell
@@ -31,8 +34,8 @@ docker-compose down
 
 - http://localhost:3000/
 
+# Build Docker image
 
-# Build Docker image 
 ```shell
 # Build image
 docker build -f backend/Dockerfile -t kobeynator/backend .
@@ -42,12 +45,13 @@ docker push kobeynator/backend
 ```
 
 # NGROK
+
 You can use ngrok to create a tunnel to your localhost:3000.
 
 ```shell
 # Dynamic domain
 ngrok http 3000 --request-header-add "ngrok-skip-browser-warning: 1"
 
-# If you have a static domain 
+# If you have a static domain
 ngrok http --domain=hopelessly-optimal-seal.ngrok-free.app 3000
 ```

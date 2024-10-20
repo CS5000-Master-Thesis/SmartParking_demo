@@ -155,6 +155,7 @@ services:
       - stronghold_pwd
 
   cqrs-postgres-db:
+    container_name: cqrs-postgres-db
     image: postgres
     restart: unless-stopped
     expose:
@@ -165,6 +166,19 @@ services:
       POSTGRES_PASSWORD: demo_pass
     volumes:
       - "./oid4vc/impierce/db:/docker-entrypoint-initdb.d"
+
+  pg-admin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - 5433:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - "./oid4vc/impierce/db/pgadmin4/servers.json:/pgadmin4/servers.json"
+    depends_on:
+      - cqrs-postgres-db
 
   # grpcurl:
   #   image: fullstorydev/grpcurl:latest

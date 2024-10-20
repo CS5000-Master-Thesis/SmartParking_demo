@@ -20,7 +20,7 @@ import * as CompanyCredentialConfig from '../../../shared/credentials/CompanyCre
 import * as VehicleInformationCredentialConfig from '../../../shared/credentials/1_VehicleInformationCredential.json';
 import * as VehicleRegistrationCredentialConfig from '../../../shared/credentials/2_VehicleRegistrationCredential.json';
 import * as VehicleOwnershipCredentialConfig from '../../../shared/credentials/3_VehicleOwnershipCredential.json';
-import * as CollaborationCredentialConfig from '../../../shared/credentials/4_CollaborationPLOandPSPCredential.json';
+import * as ParkingReceiptCredentialConfig from '../../../shared/credentials/4_ParkingReceiptCredential.json';
 import { Providers } from '../../../shared/types/Providers';
 import { ValidateDidResponse } from 'src/identity/domain_linkage';
 import { JwtCreationResponse } from 'src/identity/credentials';
@@ -229,8 +229,8 @@ export class WebAppService {
             case 'VehicleOwnershipCredential':
               credential_template = VehicleOwnershipCredentialConfig.template;
               break;
-            case 'CollaborationCredential':
-              credential_template = CollaborationCredentialConfig.template;
+            case 'ParkingReceiptCredential':
+              credential_template = ParkingReceiptCredentialConfig.template;
               break;
 
             default:
