@@ -17,7 +17,17 @@ cargo run --release -- https://impierce.smartparking.live oem ta psp plo
 cargo run --release -- https://hopelessly-optimal-seal.ngrok-free.app oem ta psp plo
 ```
 
-### 2. Start container
+### 2. Build frontend
+
+```shell
+# Navigate to web folder
+cd web
+
+# Build
+yarn build
+```
+
+### 3. Start container
 
 ```shell
 # Build images and start container (only need to have the --build the first time)
@@ -30,7 +40,7 @@ docker-compose up -d
 docker-compose down
 ```
 
-### 3. Open demo site
+### 4. Open demo site
 
 - http://localhost:3000/
 
